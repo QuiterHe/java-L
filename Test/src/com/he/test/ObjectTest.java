@@ -5,9 +5,10 @@ public class ObjectTest {
 //		Animal animal = new Animal();
 //		Animal dog = new Dog();
 //		Animal other = new Other();
-//		animal.move();
+//		animal.move();  // 虚方法
 //		dog.move();
 //		dog.bark();   //The method bark() is undefined for the type Animal
+//		new Animal(); // 抽象类不能被实例化
 		show(new Cat());
 		show(new Dog());
 		
@@ -41,6 +42,7 @@ abstract class Animal {
 }
 
 class Dog extends Animal {
+	// 子类必须实现抽象类的抽象方法
 	public void eat() {
 		System.out.println("Dog eat bone");
 	}

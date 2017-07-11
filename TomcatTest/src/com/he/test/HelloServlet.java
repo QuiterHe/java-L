@@ -27,8 +27,11 @@ public class HelloServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setCharacterEncoding("GBK");
-		response.getWriter().write("Hello world! 你好，世界！");
+		response.setCharacterEncoding("UTF-8");
+		response.setHeader("Content-Type","text/html;charset=utf-8");
+		
+		response.getWriter().write("Hello world! 你好，世界！!");
+		
 	}
 
 	/**

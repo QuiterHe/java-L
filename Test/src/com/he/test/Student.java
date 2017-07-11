@@ -1,9 +1,10 @@
 package com.he.test;
 import java.util.Date;
+import java.io.*;
 
-public class Student {
-	int age;
-	String name;
+public class Student implements Serializable {
+	public int age;
+	public String name;
 	
 	public Student(String studentName) {
 		name = studentName;

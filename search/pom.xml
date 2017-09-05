@@ -1,0 +1,382 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<groupId>com.xueba100.search</groupId>
+<artifactId>search</artifactId>
+<packaging>war</packaging>
+<version>2.0</version>
+<name>search-java Maven Webapp</name>
+<url>http://maven.apache.org</url>
+<properties>
+  <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+
+<dependencies>
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.11</version>
+    <scope>test</scope>
+  </dependency>
+
+  <dependency>
+    <groupId>javax</groupId>
+    <artifactId>javaee-api</artifactId>
+    <version>7.0</version>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+    <version>4.1.0.RELEASE</version>
+  </dependency>
+
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>4.1.0.RELEASE</version>
+  </dependency>
+
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+    <version>4.1.0.RELEASE</version>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>4.1.0.RELEASE</version>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+    <version>4.1.0.RELEASE</version>
+  </dependency>
+
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+    <version>1.1.6.RELEASE</version>
+  </dependency>
+
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-batch</artifactId>
+    <version>1.1.6.RELEASE</version>
+  </dependency>
+
+
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-core</artifactId>
+    <version>2.4.2</version>
+  </dependency>
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-annotations</artifactId>
+    <version>2.4.2</version>
+  </dependency>
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.4.2</version>
+  </dependency>
+  <dependency>
+    <groupId>org.yaml</groupId>
+    <artifactId>snakeyaml</artifactId>
+    <version>1.14</version>
+  </dependency>
+  <dependency>
+    <groupId>org.elasticsearch</groupId>
+    <artifactId>elasticsearch</artifactId>
+    <version>1.7.1</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.0.2</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.0.2</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-dbcp2</artifactId>
+    <version>2.0.1</version>
+  </dependency>
+  <dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>5.1.32</version>
+  </dependency>
+  <dependency>
+    <groupId>redis.clients</groupId>
+    <artifactId>jedis</artifactId>
+    <version>2.8.0</version>
+    <type>jar</type>
+    <scope>compile</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.mongodb</groupId>
+    <artifactId>mongo-java-driver</artifactId>
+    <version>2.12.4</version>
+  </dependency>
+  <dependency>
+    <groupId>commons-lang</groupId>
+    <artifactId>commons-lang</artifactId>
+    <version>2.6</version>
+  </dependency>
+  <dependency>
+    <groupId>commons-io</groupId>
+    <artifactId>commons-io</artifactId>
+    <version>2.4</version>
+  </dependency>
+  <dependency>
+    <groupId>commons-codec</groupId>
+    <artifactId>commons-codec</artifactId>
+    <version>1.10</version>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.3.6</version>
+    <!-- <version>4.4.1</version> -->
+  </dependency>
+  <dependency>
+    <groupId>xerces</groupId>
+    <artifactId>xerces</artifactId>
+    <version>2.4.0</version>
+  </dependency>
+  <dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>19.0-rc2</version>
+  </dependency>
+  <dependency>
+    <groupId>com.wandoulabs.jodis</groupId>
+    <artifactId>jodis</artifactId>
+    <version>0.2.2</version>
+  </dependency>
+
+
+  <!-- <dependency> <groupId>org.projectlombok</groupId> <artifactId>lombok</artifactId>
+      <version>1.16.4</version> <scope>provided</scope> </dependency> <dependency>
+      <groupId>com.xueba100.mining</groupId> <artifactId>mining-common</artifactId>
+      <version>0.1</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId> </exclusion> <exclusion> <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId> </exclusion> </exclusions> </dependency> <dependency>
+      <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-client</artifactId>
+      <version>2.5.1</version> </dependency> <dependency> <groupId>org.apache.hbase</groupId>
+      <artifactId>hbase-client</artifactId> <version>0.98.6.1-hadoop2</version>
+      <exclusions> <exclusion> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId>
+      </exclusion> <exclusion> <groupId>log4j</groupId> <artifactId>log4j</artifactId>
+      </exclusion> </exclusions> </dependency> <dependency> <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId> <version>2.5</version> <scope>provided</scope>
+      </dependency> <dependency> <groupId>org.jboss.weld.servlet</groupId> <artifactId>weld-servlet</artifactId>
+      <version>2.2.4.Final</version> <scope>runtime</scope> </dependency> <dependency>
+      <groupId>com.sun.faces</groupId> <artifactId>jsf-api</artifactId> <version>2.2.8-02</version>
+      </dependency> <dependency> <groupId>com.sun.faces</groupId> <artifactId>jsf-impl</artifactId>
+      <version>2.2.8-02</version> </dependency> -->
+</dependencies>
+<!--
+<profiles>
+    <profile>
+        <id>dev</id>
+        <properties>
+            <env>development</env>
+            <profiles.active>development</profiles.active>
+        </properties>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+    </profile>
+    <profile>
+        <id>qa</id>
+        <properties>
+            <env>qa</env>
+            <profiles.active>qa</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>tiku_all</id>
+        <properties>
+            <env>tiku_all</env>
+            <profiles.active>tiku_all</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>tiku_validation</id>
+        <properties>
+            <env>tiku_validation</env>
+            <profiles.active>tiku_validation</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search01</id>
+        <properties>
+            <env>search01</env>
+            <profiles.active>search01</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search02</id>
+        <properties>
+            <env>search02</env>
+            <profiles.active>search02</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search03</id>
+        <properties>
+            <env>search03</env>
+            <profiles.active>search03</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search04</id>
+        <properties>
+            <env>search04</env>
+            <profiles.active>search04</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search05</id>
+        <properties>
+            <env>search05</env>
+            <profiles.active>search05</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search06</id>
+        <properties>
+            <env>search06</env>
+            <profiles.active>search06</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search07</id>
+        <properties>
+            <env>search07</env>
+            <profiles.active>search07</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search08</id>
+        <properties>
+            <env>search08</env>
+            <profiles.active>search08</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search09</id>
+        <properties>
+            <env>search09</env>
+            <profiles.active>search09</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>search10</id>
+        <properties>
+            <env>search10</env>
+            <profiles.active>search10</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>yqzy01</id>
+        <properties>
+            <env>yqzy01</env>
+            <profiles.active>yqzy01</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>shenma01</id>
+        <properties>
+            <env>shenma01</env>
+            <profiles.active>shenma01</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>jlxxt01</id>
+        <properties>
+            <env>jlxxt01</env>
+            <profiles.active>jlxxt01</profiles.active>
+        </properties>
+    </profile>
+    <profile>
+        <id>ctt01</id>
+        <properties>
+            <env>ctt01</env>
+            <profiles.active>ctt01</profiles.active>
+        </properties>
+    </profile>
+</profiles>
+ -->
+<build>
+  <resources>
+    <resource>
+      <directory>src/main/resources</directory>
+      <excludes>
+        <exclude>*/*</exclude>
+      </excludes>
+    </resource>
+    <!--
+    <resource>
+        <directory>src/main/resources/${profiles.active}</directory>
+    </resource>
+     -->
+  </resources>
+  <testResources>
+    <testResource>
+      <directory>src/main/resources</directory>
+      <excludes>
+        <exclude>*/*</exclude>
+      </excludes>
+    </testResource>
+    <!--
+    <testResource>
+        <directory>src/main/resources/${profiles.active}</directory>
+    </testResource>
+     -->
+  </testResources>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>2.5</version>
+      <executions>
+        <execution>
+          <phase>package</phase>
+          <goals>
+            <goal>war</goal>
+          </goals>
+          <!--
+          <configuration>
+              <classifier>${profiles.active}</classifier>
+          </configuration>
+           -->
+        </execution>
+      </executions>
+      <configuration>
+        <archive>
+          <manifest>
+            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-compiler-plugin</artifactId>
+      <version>3.2</version>
+      <configuration>
+        <source>1.7</source>
+        <target>1.7</target>
+      </configuration>
+    </plugin>
+
+
+  </plugins>
+</build>
+</project>

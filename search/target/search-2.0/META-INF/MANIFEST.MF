@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: search-java Maven Webapp
+Implementation-Version: 2.0
+Built-By: hezhang
+Specification-Title: search-java Maven Webapp
+Implementation-Vendor-Id: com.xueba100.search
+Created-By: IntelliJ IDEA
+Build-Jdk: 1.8.0_131
+Specification-Version: 2.0
+

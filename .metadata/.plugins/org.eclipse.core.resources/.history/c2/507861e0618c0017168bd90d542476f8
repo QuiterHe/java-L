@@ -1,0 +1,224 @@
+package com.he.test;
+
+
+
+import java.io.*;
+import java.security.InvalidKeyException;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.Security;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.xerces.impl.dv.util.Base64;
+
+public class AESUtil {
+
+	//KeyGenerator 提供对称密钥生成器的功能，支持各种算法  
+	private KeyGenerator keygen;
+	//SecretKey 负责保存对称密钥  
+	private SecretKey desKey;
+	
+	public static int keyLength = 16;
+	
+	//Cipher负责完成加密或解密工作  
+	private Cipher cipher;
+	
+	public static String cryptType = "AES";
+	//该字节数组负责保存加密的结果  
+	
+	static {
+		
+	}
+
+	public AESUtil() {
+		try {
+			Security.addProvider(new com.sun.crypto.provider.SunJCE());
+			//实例化支持DES算法的密钥生成器(算法名称命名需按规定，否则抛出异常)  
+//			keygen = KeyGenerator.getInstance(cryptType);
+			//生成密钥  
+//			desKey = keygen.generateKey();
+			try {
+//				keySavaData(desKey, "/Users/sheng/Documents/Work/test/secret.key");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//生成Cipher对象,指定其支持的DES算法  
+			cipher = Cipher.getInstance(cryptType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static SecretKey generateKeyDES(byte[] key) {
+		SecretKey secureKey = null;
+		try {
+			// 从原始密钥数据创建DESKeySpec对象
+			DESKeySpec dks = new DESKeySpec(key);
+			// 创建一个密钥工厂，然后用它把DESKeySpec转换成SecretKey对象
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(cryptType);
+			secureKey = keyFactory.generateSecret(dks);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return secureKey;
+	}
+	
+	//AES 16位,DES 8位
+	public static SecretKey generateKey(byte[] key) {
+		SecretKey secureKey = null;
+		try {
+			secureKey =  new SecretKeySpec(key, cryptType);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return secureKey;
+	}
+
+	/**  
+	 * 将产生的密钥写到磁盘上  
+	 * @param key  
+	 * @throws Exception  
+	 */
+	public static void keySavaData(SecretKey key, String filename) throws Exception {
+		FileOutputStream fileOutputStream = new FileOutputStream(filename);
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+		objectOutputStream.writeObject(key);
+		objectOutputStream.close();
+		fileOutputStream.close();
+	}
+
+	/**  
+	 * 从磁盘中读取密钥  
+	 * @throws Exception  
+	 */
+	public static Key keyReadData() throws Exception {
+		FileInputStream fileInputStream = new FileInputStream("simple.key");
+		ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+		Key key = (Key) objectInputStream.readObject();
+		objectInputStream.close();
+		fileInputStream.close();
+		return key;
+	}
+
+	/** 
+	 * 对字符串加密 ,key长度要大于等于16,实际上有效的是16位
+	 *  
+	 * @param str 
+	 * @return 
+	 * @throws InvalidKeyException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws BadPaddingException 
+	 */
+	public byte[] encrypt(String str, String secretKey) {
+		byte[] cipherByte = null;
+		try {
+			secretKey = prepareKey(secretKey);
+			if(null == str) {
+				str = "";
+			}
+			// 根据密钥，对Cipher对象进行初始化，ENCRYPT_MODE表示加密模式  
+			cipher.init(Cipher.ENCRYPT_MODE, generateKey(secretKey.getBytes("UTF-8")));
+			byte[] src = str.getBytes("UTF-8");
+			// 加密，结果保存进cipherByte  
+			cipherByte = cipher.doFinal(src);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cipherByte;
+	}
+	
+
+	/** 
+	 * 对字符串解密 
+	 *  
+	 * @param buff 
+	 * @return 
+	 * @throws InvalidKeyException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws BadPaddingException 
+	 */
+	public byte[] decrypt(byte[] buff, String secretKey) {
+		byte[] result = null;
+		try {
+			secretKey = prepareKey(secretKey);
+			// 根据密钥，对Cipher对象进行初始化，DECRYPT_MODE表示加密模式  
+			cipher.init(Cipher.DECRYPT_MODE, generateKey(secretKey.getBytes("UTF-8")));
+			result = cipher.doFinal(buff);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/** 
+	 * 对base64字符串解密 
+	 *  
+	 * @param buff 
+	 * @return 
+	 * @throws InvalidKeyException 
+	 * @throws IllegalBlockSizeException 
+	 * @throws BadPaddingException 
+	 */
+	public byte[] decrypt(String str, String secretKey) {
+		byte[] result = null;
+		try {
+			result = decrypt(Base64.decode(str), secretKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public static String prepareKey(String secretKey) {
+		String result = secretKey;
+		try {
+			if(null == result) {
+				result = "";
+			}
+			if(result.length() > keyLength) {
+				result = result.substring(0, keyLength);
+			} else if(result.length() < keyLength) {
+				result += StringUtils.repeat(" ", keyLength-result.length());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	/** 
+	 * @param args 
+	 * @throws NoSuchPaddingException  
+	 * @throws NoSuchAlgorithmException  
+	 * @throws BadPaddingException  
+	 * @throws IllegalBlockSizeException  
+	 * @throws InvalidKeyException  
+	 */
+	public static void main(String[] args) throws Exception {
+		AESUtil de1 = new AESUtil();
+//		String msg = "P4LmNwGdhSlCJ9ppqFSFtw==";
+		String msg = "Tp5wMydeJFNCgmxMo/oj7rn0bEYW3HzIPM8mFtV3r128GAApuG5uhjGOR3vNW9GbuVgEt6qeRop4nSNpbq12YMvxdu1A8/DMLBdoWne5Qt7UVJnuS0GBO2b01IQ8Om90";
+		String key = "uq3aoij9lk1j0ljjo2";
+//		key = prepareKey(key);
+//		Log.log(prepareKey(key));
+//		byte[] encontent = de1.encrypt(msg, key);
+		byte[] decontent = de1.decrypt(msg, key);
+//		System.out.println("明文是:" + msg);
+//		System.out.println("加密后:" + Base64.encode(encontent));
+		System.out.println("解密后:" + new String(decontent));
+//		System.out.println("解密后:" + new String(de1.decrypt(Base64.encode(encontent), key)));
+	}
+
+}
